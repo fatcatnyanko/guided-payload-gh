@@ -164,6 +164,21 @@ void loop(void) {
   float facing = headingDegrees;
   float turnAngle = calculateTurnAngle(currLat, currLon, facing);
 
+  // Keep string down for t time
+  double t = (turnAngle * velocity) / (9.82 * tan(gps.getRoll()));
+
+  // Write to Servo
+  if (turnAngle < 0) {
+    LEFT_SERVO.write(gps.getRoll());
+    delay(t); // keep string down
+    LEFT_SERVO.write(0);
+  }
+  else {
+    RIGHT_SERVO.WRITE(gps.getRoll());
+    delay(t); // keep string down
+    LEFT_SERVO.write(0);
+  }
+
   // ----- Timed Printing -----
   if (millis() - lastPrintTime >= PRINT_INTERVAL_MS) {
     lastPrintTime = millis();
