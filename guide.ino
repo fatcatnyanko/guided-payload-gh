@@ -95,7 +95,7 @@ void loop(void) {
   sensors_event_t event;
   mag.getEvent(&event);
   static bool calibrated = false;
-
+  
   if (!gps.location.isValid()) {
     if (millis() - lastPrintTime >= PRINT_INTERVAL_MS) {
       lastPrintTime = millis();
@@ -108,8 +108,14 @@ void loop(void) {
   }
 
   // ----- GPS Data -----
+  double startLat = gps.location.lat();
+  double startLon = gps.location.lng();
+  delay(5);
   double currLat = gps.location.lat();
   double currLon = gps.location.lng();
+
+  // ---- Get Velocity ----
+  double velocity = distanceBetween(start lat, startLon, currLat, currLon) / 5;
   
   unsigned long distanceToTarget =
     (unsigned long)TinyGPSPlus::distanceBetween(
