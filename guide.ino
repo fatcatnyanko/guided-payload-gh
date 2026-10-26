@@ -169,14 +169,20 @@ void loop(void) {
 
   // Write to Servo
   if (turnAngle < 0) {
-    LEFT_SERVO.write(gps.getRoll());
-    delay(t); // keep string down
-    LEFT_SERVO.write(0);
+    LEFT_SERVO.write(180);
+    delay(2000);
+    // Keep string down for t time
+    int t = round((turnAngle * velocity) / (9.82 * tan(gps.getRoll())));
+    delay(t * 1000); // keep string down
+    LEFT_SERVO.write(-180); // set back to prev
   }
   else {
-    RIGHT_SERVO.WRITE(gps.getRoll());
-    delay(t); // keep string down
-    LEFT_SERVO.write(0);
+    RIGHT_SERVO.WRITE(180);
+    delay(1000);
+    // Keep string down for t time
+    int t = round((turnAngle * velocity) / (9.82 * tan(gps.getRoll())));
+    delay(t * 1000); // keep string down
+    LEFT_SERVO.write(-180); // set back to prev
   }
 
   // ----- Timed Printing -----
